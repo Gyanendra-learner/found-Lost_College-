@@ -177,9 +177,7 @@ def send_Ownermail(owners_mail , owner_name ,
             Please contact the finder to verify and collect your 
                    item.
 
-            Note: If you received your Lost Item then kindly 
-                  click on the 'owner confirm' button in the 'Item Matches' 
-                  section to avoid reminder emails in future.
+            Note: If you received your Lost Item then kindly click on the 'owner confirm' button in the 'Item Matches' section to avoid reminder emails in future.
             
             Your Unique key: {ownerKey} 
 
@@ -232,9 +230,7 @@ def send_finderMail(finder_mail, finder_name, found_itemName, found_location , a
 
     Please contact them to verify ownership.
     
-    Note: If you returned Lost Item then kindly click on the 
-          'owner confirm' button in the 'Item Matches' section to
-           avoid reminder emails in future.
+    Note: If you returned Lost Item then kindly click on the 'owner confirm' button in the 'Item Matches' section to avoid reminder emails in future.
    
      Your Unique key:{finderKey}
     
@@ -411,7 +407,7 @@ def report_found():
                                    finder_Email=newfound_Item.finder_email, ownerKey= lost.owner_uniqueKey
                                    )
                         send_finderMail(finder_mail=newfound_Item.finder_email , finder_name=newfound_Item.fider_Name,
-                                        found_itemName=newfound_Item.fider_Name , found_location=newfound_Item.findLocation,
+                                        found_itemName=newfound_Item.find_item , found_location=newfound_Item.findLocation,
                                         ai_score=score, owner_name= lost.owner_Name, owner_contact=lost.contact , owner_mail= lost.email, finderKey= newfound_Item.finder_uniqueKey
                                          )
             # ===============================
