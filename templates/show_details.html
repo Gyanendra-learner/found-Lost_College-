@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lost Item Details</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/show_cards.css') }}">
+</head>
+<body>
+  {% include "header.html" %}
+
+  <div class="container">
+    <h1 class="page-title">Lost Item Details</h1>
+
+    <div class="details-card">
+      <img src="{{ url_for('static', filename='uploads/' ~ viewDetails.filename) }}" 
+           class="details-image" alt="Lost Item">
+
+      <div class="details-content">
+        <h2 class="item-title">{{ viewDetails.itemName }}</h2>
+        <p><strong>Roll no:</strong> {{ viewDetails.rollno }}</p>
+         <p><strong>Owner Name:</strong>{{viewDetails.owner_Name}}</p>
+        <p class="item-category">{{ viewDetails.category }}</p>
+        <p><strong>Location:</strong> {{ viewDetails.location }}</p>
+        <p><strong>Date:</strong> {{ viewDetails.date }}</p>
+        <p><strong>Description:</strong> {{ viewDetails.description }}</p>
+        <p><strong>Owner Contact:</strong> {{ viewDetails.contact }}</p>
+        <p><strong>Owner Email:</strong> {{ viewDetails.email}}</p>
+      </div>
+
+      <div class="details-footer">
+        <a href="{{ url_for('home') }}" class="btn-back">Back to Home</a>
+      </div>
+    </div>
+  </div>
+
+  {% include "footer.html" %}
+</body>
+</html>

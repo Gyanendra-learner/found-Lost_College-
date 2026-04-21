@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AboutUs</title>
+  
+    <link href="{{ url_for('static', filename='css/about.css') }}" rel="stylesheet" />
+</head>
+<body>
+    
+
+       <!-- Hero Section -->
+<div class="hero">
+    <h1>SBSC Lost & Found Platform</h1>
+    <p>Find. Report. Reunite.</p>
+    <a href="{{url_for('home')}}">Back To Home</a> 
+
+</div>
+
+<!-- Problem Section -->
+<div class="section">
+    <img src="{{ url_for('static', filename='images/problem.png') }}" alt="Lost Item Problem">
+    <div class="content">
+        <h2>The Problem We Observed</h2>
+        <p>
+            As a first-year B.Com (Hons) student at Shaheed Bhagat Singh College, 
+            I noticed a recurring issue across campus — students and staff frequently 
+            misplace important belongings such as ID cards, wallets, phones, books, and more.
+        </p>
+        <p>
+            Usually, people post about lost or found items in various WhatsApp groups 
+            or chat platforms. However, the biggest issue is that not everyone is part 
+            of the same group. This communication gap often prevents lost items from 
+            reaching their rightful owners.
+        </p>
+    </div>
+</div>
+
+<!-- Solution Section -->
+<div class="section">
+    <img src="{{ url_for('static', filename='images/platform.png') }}" alt="Platform Overview">
+    <div class="content">
+        <h2>The Solution</h2>
+        <p>
+            To bridge this communication gap, I developed a centralized Lost & Found 
+            website exclusively for SBSC students and staff.
+        </p>
+        <p>
+            This platform allows:
+        </p>
+        <ul>
+            <li>Users to report lost items.</li>
+            <li>Finders to list recovered items.</li>
+            <li>Owners to browse and contact the finder directly.</li>
+        </ul>
+        <div class="highlight-box">
+            One single trusted platform instead of scattered group messages.
+        </div>
+    </div>
+</div>
+
+<!-- AI Section -->
+<div class="section">
+    <img src="{{ url_for('static', filename='images/ai-matching.png') }}" alt="AI Matching">
+    <div class="content">
+        <h2>AI-Powered Smart Matching</h2>
+        <p>
+            What makes this platform unique is its AI-powered matching system.
+            The system analyzes item descriptions using intelligent algorithms 
+            and automatically identifies strong matches between lost and found items.
+        </p>
+        <p>
+            When a high similarity match is detected, the system shares contact 
+            details with both parties so they can quickly connect and recover the item.
+        </p>
+    </div>
+</div>
+
+<!-- Impact Section -->
+<div class="section">
+    <img src="{{ url_for('static', filename='images/match.png') }}" alt="Item Reunited">
+    <div class="content">
+        <h2>Building a Stronger SBSC Community</h2>
+        <p>
+            This open-source initiative is built exclusively for the SBSC community. 
+            Our goal is to increase the chances of recovering lost belongings while 
+            building a more connected and supportive campus environment.
+        </p>
+        <p>
+            The platform will continue to evolve with new features, improved AI accuracy, 
+            enhanced security, and better user experience.
+        </p>
+    </div>
+</div>
+
+<!-- Contact Section -->
+<div class="section">
+    <img src="{{ url_for('static', filename='images/contactUs.png') }}" alt="CompanyEmail">
+    <div class="content">
+        <h2>Contact Us</h2>
+        <p>
+            If you have questions, feedback, or need assistance, please reach out using the Email below 
+        </p>
+        <p>
+            Email: <strong>lostandfound.notify@gmail.com</strong>  
+
+        </p>
+    </div>
+</div>
+
+<footer>
+    © 2026 SBSC Lost & Found | Built for Students & Staff of Shaheed Bhagat Singh College
+</footer>
+</div>
+
+</body>
+</html>

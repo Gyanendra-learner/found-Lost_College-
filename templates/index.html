@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lost & Found</title>
+  <link href="{{ url_for('static', filename='/css/styles.css') }}" rel="stylesheet" />
+</head>
+<body>
+{%include "header.html"%}
+ 
+
+  <section class="hero">
+    <h2>Lost Something? Found Something?</h2>
+    <p>Connect with people to recover lost items quickly and easily.</p>
+    <a href="{{url_for('report_lost')}}"><button class="btn btn-primary">Report Lost Item</button></a>
+   <a href="{{url_for('report_found')}}" Found Item> <button class="btn btn-secondary">Report Found Item</button></a>
+  </section>
+ 
+  {% if lostData|length  !=0   %} 
+  <section id="lost-items" class="container">
+    <h2>Recently Lost Items</h2>
+    <div class="grid">
+      {% for ldata in lostData[:3] %}
+      <div class="card">
+        <img src="{{ url_for('static', filename='uploads/' ~ ldata.filename) }}" alt="Lost Item" />
+        <h3>{{ldata.itemName}}</h3>
+        <p><strong>Location:</strong>{{ldata.location}}</p>
+        <p><strong>Date:</strong>{{ldata.date}}</p>
+        <a href= "{{url_for('lostItem_Details',id = ldata.id)}}"><button  class="btn btn-primary">View Details</button></a>
+      </div>
+      {%endfor %}
+  {% endif %} 
+      <!-- <div class="card">
+        <img src="https://via.placeholder.com/300x180" alt="Lost Item" />
+        <h3>iPhone 13</h3>
+        <p><strong>Location:</strong> City Mall</p>
+        <p><strong>Date:</strong> March 18, 2026</p>
+        <button class="btn btn-primary">View Details</button>
+      </div>
+       <div class="card">
+        <img src="https://via.placeholder.com/300x180" alt="Lost Item" />
+        <h3>iPhone 15</h3>
+        <p><strong>Location:</strong> Mall</p>
+        <p><strong>Date:</strong> March 16, 2026</p>
+        <button class="btn btn-primary">View Details</button>
+      </div> -->
+    </div>
+  </section>
+  
+  {%if foundData|length != 0 %}
+  <section id="found-items" class="container">
+    <h2>Recently Found Items</h2>
+    <div class="grid">
+     {% for fdata in foundData[:3]%} 
+      <div class="card">
+        <img src="{{url_for('static', filename='uploads/' ~ fdata.findImg_filename)}}" alt="Found Item" />
+        <h3>{{fdata.find_item}}</h3>
+        <p><strong>Location:</strong>{{fdata.findLocation}}</p>
+        <p><strong>Date:</strong> {{fdata.date_Find}}</p>
+        <a href="{{url_for('foundItems_details' , id = fdata.findItem_id)}}"><button class="btn btn-secondary">View Details</button></a>
+      </div>
+     {% endfor %}
+  {% endif %}
+    </div>
+  </section>
+<!-- extra stuffs -->
+   <section id="how-it-works" class="container">
+    <h2>How It Works</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>1. Post an Item</h3>
+        <p>Report a lost or found item with details such as location, date, and description.</p>
+      </div>
+      <div class="card">
+        <h3>2. Browse Listings</h3>
+        <p>Search through recently posted lost and found items in your area.</p>
+      </div>
+      <div class="card">
+        <h3>3. Connect Securely</h3>
+        <p>Contact the person safely and arrange the return of the item.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="statistics" class="container">
+    <h2>Our Impact</h2>
+    <div class="grid">
+      <div class="card">
+        <h3>{{no_of_AIdetection}}</h3>
+        <p>Items Successfully Matched</p>  <!--Returned-->
+      </div>
+      <div class="card">
+        <h3>2,400+</h3>
+        <p>Active Community Members</p>
+      </div>
+      <div class="card">
+        <h3>98%</h3>
+        <p>Successful Match Rate</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="testimonials" class="container">
+    <h2>What Our Users Say</h2>
+    <div class="grid">
+      <div class="card">
+        <p>"I found my lost wallet within 24 hours thanks to this platform!"</p>
+        <strong>- Anubhav Singh </strong>
+      </div>
+      <div class="card">
+        <p>"Returning a lost phone was so easy and quick."</p>
+        <strong>- Nikhil </strong>
+      </div>
+    </div>
+  </section>
+
+
+  {%include "footer.html"%}
+
+</body>
+</html>

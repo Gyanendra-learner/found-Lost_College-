@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report an Item </title>
+    <link href="{{ url_for('static', filename='/css/styles.css') }}" rel="stylesheet" />
+</head>
+<body>
+     {%include "header.html"%}
+  <section id="lost-item-form" class="container">
+  <h2>Report Lost Item</h2>
+  <div class="form-section">
+    <form action="{{url_for('report_lost')}}" method="POST" enctype="multipart/form-data">
+
+    
+
+      <!-- User ID -->
+      <label for="user_id">Roll No(If You Have)</label>
+      <input type="text" id="user_id" name="user_id" placeholder="Enter Your College Roll No." >
+  
+     <!-- owner Name -->
+      <label for="user_id">Owner Name</label>
+      <input type="text" id="user_Name" name="user_Name" placeholder="Enter Name of owner" required>
+
+      <!-- Title -->
+      <label for="title"> Item Name</label>
+      <input type="text" id="title" name="title" placeholder="Enter lost Item Name" required>
+
+      <!-- Category -->
+      <label for="category">Category</label>
+      <select id="category" name="category" required>
+        <option value="">Select Category</option>
+        <option value="Wallet">Wallet</option>
+        <option value="Phone">Phone</option>
+        <option value="Keys">Keys</option>
+        <option value="Bag">Bag</option>
+        <option value="Bag">Identity Card</option>
+        <option value="Electronics">Electronics</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <!-- Location -->
+      <label for="location">Location Lost</label>
+      <input type="text" id="location" name="location" placeholder="Enter Location" required>
+
+      <!-- Date Lost -->
+      <label for="date_lost">Date Lost</label>
+      <input type="date" id="date_lost" name="date_lost" required>
+
+      <!-- Description -->
+      <label for="description">Description</label>
+      <textarea id="description" name="description" rows="4" placeholder="Describe the item in detail" required></textarea>
+
+      <!-- Image -->
+      <label for="image">Upload Image</label>
+      <input type="file" id="image" name="image" accept="image/*">
+      
+      <!--contact details of owner if item found  -->
+      <label for="contactNo">Contact Details</label>
+      <input type="tel" id="contactNo" name="contactNo" placeholder="Enter Contact No." maxlength="10"  required>
+
+      <label for="Email">Email</label>
+      <input type="email" id="user_Email" name="Email_id" , placeholder="Enter your  Email" required> 
+    
+       
+
+      <button type="submit" class="btn btn-primary">Submit Lost Item</button>
+
+    </form>
+  </div>
+</section>
+{%include "footer.html" %}
+</body>
+</html>

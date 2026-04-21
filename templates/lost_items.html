@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Lost Items</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/lost_items.css') }}">
+</head>
+<body>
+  {% include "header.html" %}
+  <main>
+  <div class="container mt-4">
+    <h1 class="page-title">All Lost Items</h1>
+    <div class="grid">
+      {% for ldata in data %}
+        <div class="card">
+          <img src="{{ url_for('static', filename='uploads/' ~ ldata.filename) }}" 
+               alt="Lost Item" class="card-img">
+          <div class="card-body">
+            <h3 class="card-title">{{ ldata.itemName }}</h3>
+            <p><strong>Category:</strong> {{ ldata.category }}</p>
+            <p><strong>Location:</strong> {{ ldata.location }}</p>
+            <p><strong>Date:</strong> {{ ldata.date }}</p>
+            <p><strong>Description:</strong> {{ ldata.description }}</p>
+            <p><strong>Contact:</strong> {{ ldata.contact }}</p>
+          </div>
+          <div class="card-footer">
+            <a href="{{ url_for('lostItem_Details', id=ldata.id) }}" class="btn">View Details</a>
+          </div>
+        </div>
+      {% else %}
+        <p class="no-items">No lost items reported yet.</p>
+      {% endfor %}
+    </div>
+  </div>
+ </main>
+  {% include "footer.html" %}
+</body>
+</html>

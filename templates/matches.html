@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Matches</title>
+    <link href="{{url_for('static' , filename ='css/match.css')}}" rel="stylesheet">
+</head>
+<body>
+  {% include "header.html" %}
+<main>
+<section class="container">
+    <h2 style="text-align:center;">AI Detected Matches</h2>
+
+    <div class="match-grid">
+
+        {% for match in matches %}
+        <div class="match-card">
+
+            <div class="confidence-badge">
+                {{ (match.similarity_score * 100) | round(2) }}% Match
+            </div>
+
+            <div class="item-section">
+
+                <!-- Lost Item -->
+                <div class="item-box">
+                    <h3>Lost Item</h3>
+                    <img src="{{ url_for('static', filename='uploads/' + match.lost.filename) }}" alt="Lost Item">
+                    <p><strong>Name:</strong> {{ match.lost.itemName }}</p>
+                    <p><strong>Location:</strong> {{ match.lost.location }}</p>
+                </div>
+
+                <!-- Found Item -->
+                <div class="item-box">
+                    <h3>Found Item</h3>
+                    <img src="{{ url_for('static', filename='uploads/' + match.found.findImg_filename) }}" alt="Found Item">
+                    <p><strong>Name:</strong> {{ match.found.find_item }}</p>
+                    <p><strong>Location:</strong> {{ match.found.findLocation }}</p>
+                </div>
+
+            </div>
+             <div class="claim-section">
+                <p><strong>Status:</strong> {{ match.status }}</p>
+                
+
+
+
+                {% if not match.owner_confirmed %}
+                <a href="{{url_for('submit_pin' , id=match.id , role = 'owner')}}">                                      
+                    <!-- #{{ url_for('claim', match_id=match.id, role='owner') }} -->
+                    <button>Owner Confirm</button>
+                </a>
+                {% endif %}
+
+                {% if not match.finder_confirmed %}
+                <a href="{{ url_for('submit_pin', id=match.id, role='finder') }}">
+                    <button>Finder Confirm</button>
+                </a>
+                {% endif %}
+            </div>
+                
+        </div>
+        {% endfor %}
+
+    </div>
+</section>
+</main>
+{% include "footer.html" %}
+</body>
+</html>
