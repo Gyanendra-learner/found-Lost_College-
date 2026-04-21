@@ -23,7 +23,7 @@
     <div class="grid">
       {% for ldata in lostData[:3] %}
       <div class="card">
-        <img src="{{ url_for('static', filename='uploads/' ~ ldata.filename) }}" alt="Lost Item" />
+        <img src="{{  ldata.filename }}" alt="Lost Item" />
         <h3>{{ldata.itemName}}</h3>
         <p><strong>Location:</strong>{{ldata.location}}</p>
         <p><strong>Date:</strong>{{ldata.date}}</p>
@@ -54,7 +54,7 @@
     <div class="grid">
      {% for fdata in foundData[:3]%} 
       <div class="card">
-        <img src="{{url_for('static', filename='uploads/' ~ fdata.findImg_filename)}}" alt="Found Item" />
+        <img src="{{ fdata.findImg_filename}}" alt="Found Item" />
         <h3>{{fdata.find_item}}</h3>
         <p><strong>Location:</strong>{{fdata.findLocation}}</p>
         <p><strong>Date:</strong> {{fdata.date_Find}}</p>

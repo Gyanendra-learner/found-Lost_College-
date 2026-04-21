@@ -3,6 +3,8 @@ from sklearn.metrics.pairwise import cosine_similarity
 from PIL import Image
 import numpy as np
 import json
+import requests
+from io import BytesIO
 
 # Load CLIP model (free)
 model = SentenceTransformer('clip-ViT-B-32')
@@ -16,11 +18,17 @@ def generate_text_embedding(description, location):
 
 
 # 🔹 Generate Image Embedding
-def generate_image_embedding(image_path):
-    image = Image.open(image_path).convert("RGB")
-    embedding = model.encode(image)
-    return embedding.tolist()
+def generate_image_embedding(image_path_or_url):
+    # If it's a URL, fetch the image
+    if image_path_or_url.startswith("http"):
+        response = requests.get(image_path_or_url)
+        img = Image.open(BytesIO(response.content)).convert("RGB")
+    else:
+        # Local file path
+        img = Image.open(image_path_or_url).convert("RGB")
 
+    embedding = model.encode(img)
+    return embedding.tolist()
 
 # 🔹 Cosine Similarity
 def cosine_sim(emb1, emb2):

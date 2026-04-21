@@ -14,7 +14,7 @@
     <div class="grid">
       {% for fdata in found_data %}
         <div class="card">
-          <img src="{{ url_for('static', filename='uploads/' ~ fdata.findImg_filename) }}" 
+          <img src="{{ fdata.findImg_filename}}" 
                alt="Lost Item" class="card-img">
           <div class="card-body">
             <h3 class="card-title">{{fdata.find_item}}</h3>

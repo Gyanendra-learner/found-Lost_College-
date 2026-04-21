@@ -26,7 +26,7 @@
                 <!-- Lost Item -->
                 <div class="item-box">
                     <h3>Lost Item</h3>
-                    <img src="{{ url_for('static', filename='uploads/' + match.lost.filename) }}" alt="Lost Item">
+                    <img src="{{ match.lost.filename }}" alt="Lost Item">
                     <p><strong>Name:</strong> {{ match.lost.itemName }}</p>
                     <p><strong>Location:</strong> {{ match.lost.location }}</p>
                 </div>
@@ -34,7 +34,7 @@
                 <!-- Found Item -->
                 <div class="item-box">
                     <h3>Found Item</h3>
-                    <img src="{{ url_for('static', filename='uploads/' + match.found.findImg_filename) }}" alt="Found Item">
+                    <img src="{{  match.found.findImg_filename}}" alt="Found Item">
                     <p><strong>Name:</strong> {{ match.found.find_item }}</p>
                     <p><strong>Location:</strong> {{ match.found.findLocation }}</p>
                 </div>

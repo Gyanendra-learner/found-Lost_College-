@@ -25,7 +25,18 @@ load_dotenv()
 import os 
 from werkzeug.utils import secure_filename
 # --------------------------------------------------------------------------------------------------------------------------------
+#Cloudinary forthe image handling 
 
+import cloudinary
+import cloudinary.uploader
+
+cloudinary.config(
+    cloud_name = os.getenv("CLOUDINARY_CLOUD_NAME"),
+    api_key = os.getenv("CLOUDINARY_API_KEY"),
+    api_secret = os.getenv("CLOUDINARY_API_SECRET")
+)
+
+# --------------------------------------------------------------------------------------------------------------------------------
 
 # intializing the simple  flask app
 app = Flask(__name__)
@@ -283,39 +294,36 @@ def found():
 
 #--------------------------------------------------------------------#-----------------------------------------------------------
 #reportlost items
-@app.route("/report-LostItem", methods = ['GET' ,'POST'])
+@app.route("/report-LostItem", methods=['GET', 'POST'])
 def report_lost():
     if request.method == 'POST':
         image = request.files['image']
 
         if image:
-            # Sanitize filename
-            filename = secure_filename(image.filename)
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            
-            # Save file to static/uploads/
-            image.save(filepath)
-            # 🤖  AI work
+            # Upload to Cloudinary
+            upload_result = cloudinary.uploader.upload(image)
+            image_url = upload_result['secure_url']
+
+            # Generate embeddings
             text_emb = generate_text_embedding(
-                         request.form['description'],
-                         request.form['location'])
-            # Generate image embedding
-            image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-            image_emb = generate_image_embedding(image_path)
-            # Store filename in DB (not raw binary)
-            
+                request.form['description'],
+                request.form['location']
+            )
+            image_emb = generate_image_embedding(image_url)
+
+            # Save URL in DB instead of filename
             new_data = lostItem(
                 rollno=request.form['user_id'],
-                owner_Name = request.form['user_Name'],
+                owner_Name=request.form['user_Name'],
                 itemName=request.form['title'],
                 category=request.form['category'],
                 location=request.form['location'],
                 date=date.fromisoformat(request.form['date_lost']),
                 contact=int(request.form['contactNo']),
-                owner_uniqueKey= uniqueKey_checkerLost() ,
-                email = request.form["Email_id"],
+                owner_uniqueKey=uniqueKey_checkerLost(),
+                email=request.form["Email_id"],
                 description=request.form['description'],
-                filename=filename,
+                filename=image_url,  # store Cloudinary URL
                 text_embedding=json.dumps(text_emb),
                 image_embedding=json.dumps(image_emb)
             )
@@ -325,51 +333,48 @@ def report_lost():
             return redirect(url_for("home"))
 
     return render_template("report_lost.html")
+
 #---------------------------------------------------------------#-----------------------------------------------------------------
 # report found item 
-@app.route('/report-FoundItem' , methods = ['GET' , 'POST'])
-def  report_found():
-# now uploading data of founditem in the database  
-     if request.method == 'POST': 
-       found_img = request.files['fimage']
-       if found_img: #is not null
-             # Sanitize filename
-            filename2 = secure_filename(found_img.filename)
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename2)
-            
-            # Save file to static/uploads/
-            found_img.save(filepath)
-            # Store filename in DB (not raw binary)       
-            newfound_Item = findItem(find_item = request.form['title'] ,
-                                     fider_Name= request.form['finder_Name'],
-                                     findItem_category =request.form['category'] , 
-                                     findLocation=request.form['location_found'] ,
-                                     date_Find = date.fromisoformat(request.form['date_found']), 
-                                     findItem_Desc = request.form['description'], 
-                                     finder_contact= request.form['contactNo'], 
-                                     finder_email = request.form['Email_id'] ,
-                                     finder_uniqueKey = uniqueKey_checkerFound(), 
-                                     findImg_filename =filename2) 
+@app.route('/report-FoundItem', methods=['GET', 'POST'])
+def report_found():
+    if request.method == 'POST':
+        found_img = request.files['fimage']
+        if found_img:
+            # Upload to Cloudinary
+            upload_result = cloudinary.uploader.upload(found_img)
+            image_url = upload_result['secure_url']
+
+            # Save URL in DB
+            newfound_Item = findItem(
+                find_item=request.form['title'],
+                fider_Name=request.form['finder_Name'],
+                findItem_category=request.form['category'],
+                findLocation=request.form['location_found'],
+                date_Find=date.fromisoformat(request.form['date_found']),
+                findItem_Desc=request.form['description'],
+                finder_contact=request.form['contactNo'],
+                finder_email=request.form['Email_id'],
+                finder_uniqueKey=uniqueKey_checkerFound(),
+                findImg_filename=image_url  # store Cloudinary URL
+            )
             db.session.add(newfound_Item)
             db.session.commit()
-             # ===============================
-            # 🤖 AI MATCHING STARTS HERE
-            # ===============================
 
-            # Generate text embedding
+            # Generate embeddings
             found_text_emb = generate_text_embedding(
-            request.form['description'],
-            request.form['location_found'])
+                request.form['description'],
+                request.form['location_found']
+            )
+            found_img_emb = generate_image_embedding(image_url)
 
-            # Generate image embedding
-            found_image_path = os.path.join(app.config['UPLOAD_FOLDER'], filename2)
-            found_img_emb = generate_image_embedding(found_image_path)
-
-           # Save embeddings in DB
             newfound_Item.text_embedding = json.dumps(found_text_emb)
             newfound_Item.image_embedding = json.dumps(found_img_emb)
             db.session.commit()
-
+            
+            # ===============================
+            # 🤖 AI MATCHING STARTS HERE
+            # ===============================
 
             # Fetch all lost items
             all_lost_items = db.session.execute(db.select(lostItem)).scalars().all()
@@ -413,10 +418,10 @@ def  report_found():
             # 🤖 AI MATCHING ENDS HERE
             # ===============================
              
-
+            
             return redirect('/')
 
-     return render_template('report_found.html')
+    return render_template('report_found.html')
     
 
 #---------------------------------------------------------------#-----------------------------------------------------------------
